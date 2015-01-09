@@ -10,3 +10,6 @@ Related Project
 [RxJava](https://github.com/ReactiveX/RxJava)
 * 网络
 [RetroFit](https://github.com/square/retrofit)
+
+####预览
+![image](https://github.com/talentprince/RxJavaAndroidDemo/raw/master/show.png)
