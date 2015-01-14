@@ -21,19 +21,22 @@ public class WeatherDataFetcher {
                 return Observable.create(new Observable.OnSubscribe<Weather>() {
                     @Override
                     public void call(Subscriber<? super Weather> subscriber) {
-                        RestAdapter restAdapter = new RestAdapter.Builder()
-                                .setEndpoint("http://api.map.baidu.com/telematics/v3")
-                                .setRequestInterceptor(new RequestInterceptor() {
-                                    @Override
-                                    public void intercept(RequestFacade request) {
-                                        request.addQueryParam("output", "json");
-                                        request.addQueryParam("ak", "A72e372de05e63c8740b2622d0ed8ab1");
-                                    }
-                                }).build();
-                        subscriber.onNext(restAdapter.create(WeatherRequestAPI.class).getWeather(s));
-                    }
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-            }
-        });
+                        try {
+                            RestAdapter restAdapter = new RestAdapter.Builder()
+                                    .setEndpoint("http://api.map.baidu.com/telematics/v3")
+                                    .setRequestInterceptor(new RequestInterceptor() {
+                                        @Override
+                                        public void intercept(RequestFacade request) {
+                                            request.addQueryParam("output", "json");
+                                            request.addQueryParam("ak", "A72e372de05e63c8740b2622d0ed8ab1");
+                                        }
+                                    }).build();
+                            subscriber.onNext(restAdapter.create(WeatherRequestAPI.class).getWeather(s));
+                        }catch (Exception e) {
+                            subscriber.onError(e);
+                        }
+                        }
+                    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).retry();}
+            });
     }
 }

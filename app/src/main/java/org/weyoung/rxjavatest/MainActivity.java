@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.weyoung.rxjavatest.data.Weather;
 import org.weyoung.rxjavatest.data.WeatherData;
@@ -52,6 +53,11 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void call(Weather weather) {
                 dealwithResult(weather);
+            }
+            }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                Toast.makeText(getApplicationContext(), "Error~Retrying", Toast.LENGTH_SHORT).show();
             }
         });
 
